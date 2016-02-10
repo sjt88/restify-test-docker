@@ -9,4 +9,11 @@ RUN apt-get -y install git
 # # Install node
 RUN curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
 RUN sudo apt-get install -y nodejs
-RUN git clone git@github.com:sjt88/restify-test.git
+
+RUN npm install -g pm2
+
+RUN mkdir /app
+RUN cd /app && git clone https://github.com/sjt88/restify-test.git
+RUN npm install /app/restify-test/app
+
+CMD pm2 start /app/restify-test/app/index.js && pm2 logs all
